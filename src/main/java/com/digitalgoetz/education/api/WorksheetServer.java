@@ -45,7 +45,6 @@ public class WorksheetServer {
 
 				return raw;
 			} else {
-				System.out.println("FARK");
 				res.status(500);
 				return "Failed";
 			}
