@@ -1,0 +1,10 @@
+.content {
+    grid-column: 1 / 5;
+    grid-row: 2 / 6;
+    padding: 1em;
+}
+
+.content-spacing {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}

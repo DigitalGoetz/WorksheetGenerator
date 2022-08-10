@@ -1,0 +1,19 @@
+services:
+  frontend:
+    image: docker.balldayton.com/argus/framework-services/observations-frontend:1.0.0
+    ports:
+      - 3000:3000
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: always
+    depends_on:
+      - api
+    environment:
+      - REACT_APP_OBSERVATION_ENDPOINT=http://localhost:4000/observations/
+
+  api:
+    image: digitalgoetz/worksheet:0.0.1
+    ports:
+      - 4000:4222
+    restart: always
