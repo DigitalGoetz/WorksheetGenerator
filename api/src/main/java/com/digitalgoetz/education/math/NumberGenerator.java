@@ -47,8 +47,6 @@ public class NumberGenerator {
 			
 			sb.append("0");
 			valueString = sb.toString();
-			System.out.println("Generated:");
-			System.out.println(valueString);
 		}
 		
 		return valueString;

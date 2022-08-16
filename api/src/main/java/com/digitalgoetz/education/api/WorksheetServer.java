@@ -16,24 +16,35 @@ public class WorksheetServer {
 
 		port(4222);
 
+		options("/*", (request, response) -> {
+
+			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+			if (accessControlRequestHeaders != null) {
+				response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+			}
+
+			String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+			if (accessControlRequestMethod != null) {
+				response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+			}
+
+			return "OK";
+		});
+
+		before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+
 		get("/hello", (req, res) -> "Hello World");
 
 		get("/worksheet/:operation/:digits", (req, res) -> {
 			String operation = req.params("operation");
 			int digits = Integer.parseInt(req.params("digits").trim());
-			
-			System.out.println(operation);
-			System.out.println(digits);
 
 			File worksheet = null;
 			if (operation.equals("addition")) {
 				worksheet = WorksheetGenerator.createWorksheet(OperationType.ADDITION, digits);
 			} else if (operation.equals("subtraction")) {
-				System.out.println("arewehere?");
 				worksheet = WorksheetGenerator.createWorksheet(OperationType.SUBTRACTION, digits);
 			}
-			
-			
 
 			if (worksheet != null) {
 				byte[] bytes = Files.readAllBytes(Paths.get(worksheet.getAbsolutePath()));
@@ -45,7 +56,6 @@ public class WorksheetServer {
 
 				return raw;
 			} else {
-				System.out.println("FARK");
 				res.status(500);
 				return "Failed";
 			}
