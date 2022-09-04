@@ -3,53 +3,49 @@ package com.digitalgoetz.education.math;
 import java.util.Random;
 
 public class NumberGenerator {
-	
+
 	Random random;
-	
+
 	public NumberGenerator(long seed) {
 		random = new Random(seed);
 	}
-	
-	public String getNumber(Integer numDigits) {
-		String valueString = "";
-		
-		if(numDigits < 1 ) {
+
+	public String getNumber(Integer numDigits, boolean notZero) {
+
+		if (numDigits < 1) {
 			numDigits = 1;
 		}
-		
-		if( numDigits > 6) {
+
+		if (numDigits > 6) {
 			numDigits = 6;
 		}
-		
-		for(int i = 0; i < numDigits; i++) {
-			int value = random.nextInt(10);
-			valueString += Integer.toString(value);
-		}
-		
-		int length = valueString.length();
-		for(int index = 0; index < length; index++) {
-			
-			if( valueString.charAt(index) == '0') {
-				StringBuffer string = new StringBuffer(valueString);
-		        string.setCharAt(index, ' ');
-				valueString = string.toString();
-			}else {
-				break;
+
+		int value = random.nextInt(getMaxValue(numDigits));
+		if (notZero && value == 0) {
+			while (value == 0) {
+				value = random.nextInt(getMaxValue(numDigits));
 			}
 		}
-		
-		if( valueString.trim().isEmpty()) {
-			StringBuffer sb = new StringBuffer();
-			int stringLength = numDigits - 1;
-			for(int i =0; i < stringLength; i++) {
-				sb.append(" ");
-			}
-			
-			sb.append("0");
-			valueString = sb.toString();
+
+		// Ensure returned Number string is correct length
+		String valueString = String.valueOf(value);
+		while (valueString.length() < numDigits) {
+			valueString = " " + valueString;
 		}
-		
+
 		return valueString;
+	}
+
+	public String getNumber(Integer numDigits) {
+		return getNumber(numDigits, false);
+	}
+
+	private Integer getMaxValue(Integer numDigits) {
+		String maxValueString = "";
+		for (int i = 0; i < numDigits; i++) {
+			maxValueString += "9";
+		}
+		return Integer.valueOf(maxValueString);
 	}
 
 }

@@ -16,6 +16,8 @@ public class WorksheetServer {
 
 		port(4222);
 
+		staticFiles.externalLocation("/application/ui");
+
 		options("/*", (request, response) -> {
 
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -33,17 +35,22 @@ public class WorksheetServer {
 
 		before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
-		get("/hello", (req, res) -> "Hello World");
-
 		get("/worksheet/:operation/:digits", (req, res) -> {
 			String operation = req.params("operation");
+			
+			Boolean allowNegatives = false;
+			if(operation.equals("subtraction")){
+				if (req.queryParams("negatives").toLowerCase().equals("true")){
+					allowNegatives = true;
+				}
+			}
 			int digits = Integer.parseInt(req.params("digits").trim());
 
 			File worksheet = null;
 			if (operation.equals("addition")) {
 				worksheet = WorksheetGenerator.createWorksheet(OperationType.ADDITION, digits);
 			} else if (operation.equals("subtraction")) {
-				worksheet = WorksheetGenerator.createWorksheet(OperationType.SUBTRACTION, digits);
+				worksheet = WorksheetGenerator.createWorksheet(OperationType.SUBTRACTION, digits, allowNegatives);
 			}
 
 			if (worksheet != null) {
