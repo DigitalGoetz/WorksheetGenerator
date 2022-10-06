@@ -32,7 +32,7 @@ resource "aws_lb_target_group" "worksheet-lb" {
   vpc_id      = aws_vpc.worksheet-vpc.id
 
   health_check {
-    enabled = false
+    enabled = true
     path    = "/health"
   }
 
@@ -87,7 +87,7 @@ resource "aws_ecs_task_definition" "worksheet-api-task-def" {
   [
     {
         "name": "worksheet-api",
-        "image": "public.ecr.aws/a5z6g2x8/simple-worksheet:1.0.0",
+        "image": "public.ecr.aws/a5z6g2x8/simple-worksheet:1.0.1",
         "portMappings": [
             {
                 "containerPort": 4222

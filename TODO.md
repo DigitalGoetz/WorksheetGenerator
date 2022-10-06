@@ -1,5 +1,6 @@
 # Items to Add
 
-* Static Resources placed into S3 buckets for hosting
-* API Gateway to route requests from S3 hosted resources to backend APIs
-* 
+* Update with Domain Name
+* Fix Page Title
+* Use HTTPS? 
+* Add some padding for all contents within the page (everything is like 1 pixel from the edge of the screen; yeesh)
