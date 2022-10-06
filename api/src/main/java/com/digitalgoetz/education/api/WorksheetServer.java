@@ -35,12 +35,17 @@ public class WorksheetServer {
 
 		before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
+		get("/health", (req, res) -> {
+			res.status(200);
+			return "OK";
+		});
+
 		get("/worksheet/:operation/:digits", (req, res) -> {
 			String operation = req.params("operation");
-			
+
 			Boolean allowNegatives = false;
-			if(operation.equals("subtraction")){
-				if (req.queryParams("negatives").toLowerCase().equals("true")){
+			if (operation.equals("subtraction")) {
+				if (req.queryParams("negatives").toLowerCase().equals("true")) {
 					allowNegatives = true;
 				}
 			}
