@@ -154,3 +154,10 @@ resource "aws_security_group" "ingress_api" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_route53_record" "worksheet-alb-target" {
+  zone_id = aws_alb.worksheet-alb.zone_id
+  name    = "digitalgoetz.net"
+  type    = "A"
+  ttl     = 300
+}

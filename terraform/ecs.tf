@@ -70,11 +70,6 @@ resource "aws_alb_listener" "worksheet-api-http" {
   }
 }
 
-output "alb_url" {
-  value = "http://${aws_alb.worksheet-alb.dns_name}"
-
-}
-
 resource "aws_cloudwatch_log_group" "worksheet-api-logs" {
   name = "/ecs/worksheet-api"
 }
